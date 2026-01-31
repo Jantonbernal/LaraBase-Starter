@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Enums;
+
+enum Status: string
+{
+    case ACTIVE = '1';
+    case INACTIVE = '0';
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::ACTIVE => 'Activo',
+            self::INACTIVE => 'Inactivo',
+        };
+    }
+
+    public function toggle(): self
+    {
+        return $this === self::ACTIVE ? self::INACTIVE : self::ACTIVE;
+    }
+}
