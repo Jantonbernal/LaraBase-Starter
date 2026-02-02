@@ -26,7 +26,11 @@ class VerifyEmail extends FormRequest
                 'bail',
                 'required',
                 // 'email:rfc,dns'
-            ]
+            ],
+            'hideEmail' => [
+                'bail',
+                'required',
+            ],
         ];
     }
 }

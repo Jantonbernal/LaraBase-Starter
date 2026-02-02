@@ -116,7 +116,7 @@ class AuthController extends Controller
             $user = User::where([
                 ['email', $request->email],
                 ['verification_code', $request->code],
-                ['status', '1'],
+                ['status', Status::ACTIVE],
             ])->first();
 
             if (!$user) {
@@ -145,7 +145,7 @@ class AuthController extends Controller
             $user = User::where([
                 ['email', $request->email],
                 ['verification_code', $request->code],
-                ['status', '1'],
+                ['status', Status::ACTIVE],
             ])->first();
 
             if (!$user) {
