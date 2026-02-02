@@ -6,6 +6,7 @@ use App\Enums\Status;
 use App\Http\Requests\ResetPassword;
 use App\Http\Requests\VerifyCode;
 use App\Http\Requests\VerifyEmail;
+use App\Http\Resources\UserResource;
 use App\Mail\ForgotPassword;
 use App\Models\Company;
 use App\Models\User;
@@ -48,7 +49,7 @@ class AuthController extends Controller
 
         return response()->json([
             'token' => $token,
-            'user'  => $user,
+            'user'  => new UserResource($user),
         ]);
     }
 

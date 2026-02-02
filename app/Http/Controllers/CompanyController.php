@@ -14,12 +14,12 @@ class CompanyController extends Controller
 {
     use Loggable;
 
-    public function show()
+    public function show(Company $company)
     {
         Gate::authorize('viewAny', Company::class);
 
-        $company = Company::with('logo')->first();
-        return (new CompanyResource($company))->response();
+        $record = Company::with('logo')->first();
+        return (new CompanyResource($record))->response();
     }
 
     public function update(CompanyRequest $request, Company $company)
