@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FileRequest;
 use App\Http\Requests\FilesRequest;
 use App\Http\Resources\FileResource;
-use App\Loggable;
 use App\Services\FileUploadService;
-use Illuminate\Http\Request;
+use App\Traits\Loggable;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 

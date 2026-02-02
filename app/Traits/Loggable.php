@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Traits;
 
 use App\Models\Log;
 use Illuminate\Support\Facades\Auth;

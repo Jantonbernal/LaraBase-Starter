@@ -36,6 +36,7 @@ class UserFactory extends Factory
             'phone'             =>  fake()->optional()->phoneNumber(),
             'file_id'           =>  null, // Will be set later by withProfilePhoto()
             'status'            =>  Status::ACTIVE,
+            'code'              => (new User)->generateUniqueCode(),
         ];
     }
 

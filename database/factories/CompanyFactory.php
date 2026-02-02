@@ -20,7 +20,7 @@ class CompanyFactory extends Factory
             'business_name' => strtoupper(fake()->company()),
             'trade_name' => strtoupper(fake()->company()),
             'document' => random_int(10000000000, 99999999999),
-            'email' => fake()->optional()->unique()->companyEmail(),
+            'email' => fake()->optional()->companyEmail(),
             'phone_number' => fake()->optional()->phoneNumber(),
             'file_id' => null,
         ];

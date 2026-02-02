@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Traits;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -10,13 +10,15 @@ trait HasCode
     /**
      * Boot del trait para asignar el código automáticamente.
      */
-    protected static function bootHasCode()
+    public static function bootHasCode()
     {
         static::creating(function ($model) {
+            dump("Generando código para: " . ($model->email ?? 'nuevo registro'));
+
             // Verificamos si la tabla tiene la columna 'code' para evitar errores de SQL
             if (Schema::hasColumn($model->getTable(), 'code')) {
                 // Solo genera el código si no se ha asignado manualmente
-                if (!$model->code) {
+                if (is_null($model->code) || $model->code === '') {
                     $model->code = $model->generateUniqueCode();
                 }
             }

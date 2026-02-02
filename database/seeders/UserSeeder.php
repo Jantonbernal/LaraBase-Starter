@@ -3,10 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -15,6 +12,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // Usuario administrador
         User::factory()
             ->count(1)
             ->withProfilePhoto()
@@ -25,7 +23,7 @@ class UserSeeder extends Seeder
 
         // Usuarios normales
         User::factory()
-            ->count(5)
+            ->count(1)
             ->withProfilePhoto()
             ->create()
             ->each(function ($user) {

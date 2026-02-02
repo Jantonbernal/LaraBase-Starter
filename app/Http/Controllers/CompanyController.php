@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CompanyRequest;
-use App\Loggable;
 use App\Models\Company;
-use Illuminate\Http\Request;
 use App\Http\Resources\CompanyResource;
+use App\Traits\Loggable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Throwable;

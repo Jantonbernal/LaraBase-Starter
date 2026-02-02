@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Loggable;
 use App\Models\File;
+use App\Traits\Loggable;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
 class FileObserver implements ShouldHandleEventsAfterCommit

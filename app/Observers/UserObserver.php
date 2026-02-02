@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Loggable;
 use App\Models\User;
+use App\Traits\Loggable;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
 class UserObserver implements ShouldHandleEventsAfterCommit
