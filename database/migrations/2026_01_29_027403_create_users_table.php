@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone')->nullable()->comment('Teléfono de contacto');
+            $table->string('verification_code')->nullable();
             $table->foreignId('file_id')->nullable()->constrained('files')->comment('Foto de perfil del usuario');
             $table->rememberToken();
             $table->enum('status', ['1', '0'])->default('1')->comment('1: Activo, 0: Inactivo');

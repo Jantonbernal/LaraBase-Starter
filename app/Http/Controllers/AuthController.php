@@ -14,7 +14,6 @@ use App\Traits\Loggable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Throwable;
@@ -71,7 +70,7 @@ class AuthController extends Controller
             // Verifica que el usuario exista y este activo el usuario
             $user = User::where([
                 ['email', $request->email],
-                ['status', '1'],
+                ['status', Status::ACTIVE],
             ])->first();
 
             // Si no existe retorna error 500
@@ -93,11 +92,7 @@ class AuthController extends Controller
                 'code' => $random,
             ];
 
-            // Envia el correo de recuperación de contraseña
-            // dispatch para que se envie despues de la respuesta al cliente, afterResponse() lo asegura
-            dispatch(function () use ($user, $data, $company) {
-                Mail::to($user->email)->send(new ForgotPassword($data, $company));
-            })->afterResponse();
+            Mail::to($user->email)->queue(new ForgotPassword($data, $company));
 
             DB::commit();
 

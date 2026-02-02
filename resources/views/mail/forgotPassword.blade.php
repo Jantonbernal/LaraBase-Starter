@@ -1,129 +1,94 @@
-<!DOCTYPE html
-    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
-    style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+<!DOCTYPE html>
+<html lang="es">
 
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Código de seguridad</title>
-
-    <style type="text/css">
-        img {
-            max-width: 100%;
-        }
-
+    <style>
         body {
-            -webkit-font-smoothing: antialiased;
-            -webkit-text-size-adjust: none;
-            width: 100% !important;
-            height: 100%;
-            line-height: 1.6em;
-            background-color: #f6f6f6;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            box-sizing: border-box;
-            font-size: 14px;
-            width: 100%;
-            background-color: #f6f6f6;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 0;
             margin: 0;
         }
 
-        @media only screen and (max-width: 640px) {
-            body {
-                padding: 0 !important;
-            }
+        .container {
+            background-color: #ffffff;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
-            h1 {
-                font-weight: 800 !important;
-                margin: 20px 0 5px !important;
-            }
+        .header {
+            text-align: center;
+        }
 
-            h2 {
-                font-weight: 800 !important;
-                margin: 20px 0 5px !important;
-            }
+        .logo {
+            max-height: 60px;
+            margin-bottom: 7px;
+        }
 
-            h3 {
-                font-weight: 800 !important;
-                margin: 20px 0 5px !important;
-            }
+        h2 {
+            color: #333333;
+        }
 
-            h4 {
-                font-weight: 800 !important;
-                margin: 20px 0 5px !important;
-            }
+        p {
+            color: #666666;
+            font-size: 16px;
+            line-height: 1.5;
+        }
 
-            h1 {
-                font-size: 22px !important;
-            }
+        .code {
+            font-size: 24px;
+            color: #1a73e8;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
 
-            h2 {
-                font-size: 18px !important;
-            }
+        .footer {
+            font-size: 13px;
+            color: #999999;
+            text-align: center;
+            margin-top: 30px;
+        }
 
-            h3 {
-                font-size: 16px !important;
-            }
-
+        @media only screen and (max-width: 600px) {
             .container {
-                padding: 0 !important;
-                width: 100% !important;
-            }
-
-            .content {
-                padding: 0 !important;
-            }
-
-            .content-wrap {
-                padding: 10px !important;
-            }
-
-            .invoice {
-                width: 100% !important;
+                padding: 20px;
             }
         }
     </style>
 </head>
 
 <body>
-    <table>
-        <tr>
-            <td></td>
-            <td class="container" width="600" valign="top">
-                <div class="content">
-                    <table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action"
-                        bgcolor="#fff">
-                        <tr>
-                            <td class="content-wrap" valign="top">
-                                <table width="100%" cellpadding="0" cellspacing="0">
-                                    <tr>
-                                        <td class="content-block" valign="top">
-                                            Usa el siguiente código de seguridad para la cuenta {{ $data['hideEmail'] }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="content-block" valign="top">
-                                            Código de seguridad: <strong>{{ $data['code'] }}</strong>
-                                            <br>
-                                            Si no solicitaste este código, puedes hacer caso omiso de este mensaje de
-                                            correo electrónico. Otra persona puede haber escrito tu dirección de correo
-                                            electrónico por error.
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="content-block" valign="top">
-                                            Gracias, <br>
-                                            &mdash; El equipo de cuentas de {{ $company->business_name }}
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-        </tr>
-    </table>
+    <div class="container">
+        <div class="header">
+            @if (!empty($company->logo?->path))
+                <img src="{{ asset('storage/' . $company->logo->path) }}" alt="{{ $company->name }}" class="logo">
+            @endif
+            <h2>{{ $company->name }}</h2>
+        </div>
+
+        <p>Hola {{ $data['name'] }},</p>
+
+        <p>
+            Has solicitado un código de recuperación para acceder a tu cuenta que termina en {{ $data['hideEmail'] }} .
+            Por favor, utiliza el siguiente código
+            para completar tu proceso:
+        </p>
+
+        <div class="code">{{ $data['code'] }}</div>
+
+        <p>Este código es válido por un tiempo limitado. Si no solicitaste este código, puedes ignorar este correo.</p>
+
+        <div class="footer">
+            &copy; {{ now()->year }} {{ $company->name }}. Todos los derechos reservados.
+        </div>
+    </div>
 </body>
 
 </html>

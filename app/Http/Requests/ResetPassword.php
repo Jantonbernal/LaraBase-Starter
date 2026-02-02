@@ -25,7 +25,7 @@ class ResetPassword extends FormRequest
             'email' => [
                 'bail',
                 'required',
-                'email:rfc,dns'
+                // 'email:rfc,dns'
             ],
             'code' => 'required',
             'password' => [

@@ -32,7 +32,7 @@ class ForgotPassword extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address($this->company->email, $this->company->trade_name),
+            from: new Address($this->company->email, $this->company->name),
             subject: 'Código de seguridad',
         );
     }
