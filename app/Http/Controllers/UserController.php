@@ -208,8 +208,6 @@ class UserController extends Controller
 
     public function allAccess(Request $request)
     {
-        Gate::authorize('allAccess', User::class);
-
         // 1. Cargamos al usuario UNA SOLA VEZ con sus relaciones ya filtradas
         $user = $request->user(); // Ya tenemos al usuario autenticado
 

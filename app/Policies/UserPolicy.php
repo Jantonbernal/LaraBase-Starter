@@ -73,13 +73,6 @@ class UserPolicy
         return false;
     }
 
-    public function allAccess(User $user): Response
-    {
-        return $user->hasPermission('usuario.accesos')
-            ? Response::allow()
-            : Response::deny('No tienes permiso para ver los accesos del sistema.');
-    }
-
     public function assignPermissions(User $user, User $model): Response
     {
         // Validamos que tenga el permiso y, opcionalmente, 

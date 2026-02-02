@@ -57,13 +57,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'status' => Status::class,
         ];
     }
-
-    // cast for status attribute
-    protected $casts = [
-        'status' => Status::class,
-    ];
 
     /**
      * The roles that belong to the user.

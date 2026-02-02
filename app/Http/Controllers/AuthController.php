@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Status;
 use App\Http\Requests\ResetPassword;
 use App\Http\Requests\VerifyCode;
 use App\Http\Requests\VerifyEmail;
@@ -12,6 +13,7 @@ use App\Traits\Loggable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Throwable;
@@ -28,7 +30,7 @@ class AuthController extends Controller
             'status'    => '1'
         ]);
 
-        $user = User::with('file')->where('email', $credentials['email'])->first();
+        $user = User::with('photo')->where('email', $credentials['email'])->first();
 
         // Verificar que no sea un usuario eliminado lógicamente y que la contraseña sea correcta
         if (! $user || ! Hash::check($credentials['password'], $user->password)) {
@@ -38,7 +40,7 @@ class AuthController extends Controller
         }
 
         // Si el usuario está desactivado retornar error 403
-        if ($user->status !== '1') {
+        if ($user->status !== Status::ACTIVE) {
             return response()->json(['message' => 'Cuenta desactivada'], 403);
         }
 
