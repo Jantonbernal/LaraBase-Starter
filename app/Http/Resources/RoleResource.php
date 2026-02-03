@@ -21,7 +21,7 @@ class RoleResource extends JsonResource
             'status_name'   => $this->status->label(),
             // Solo incluirá permisos si hiciste ->with('permissions')
             'permissions'   => PermissionResource::collection($this->whenLoaded('permissions')),
-            'created_at'    => $this->created_at,
+            'created_at'    => $this->created_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

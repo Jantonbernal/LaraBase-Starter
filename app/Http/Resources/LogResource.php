@@ -21,7 +21,7 @@ class LogResource extends JsonResource
             'message'   => $this->message,
             'payload'   => $this->payload,
             'user'      => new UserResource($this->whenLoaded('user')),
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

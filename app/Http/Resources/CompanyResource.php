@@ -23,8 +23,8 @@ class CompanyResource extends JsonResource
             'phone_number'  =>  $this->phone_number,
             'file_id'       =>  $this->file_id,
             'logo'          =>  new FileResource($this->whenLoaded('logo')),
-            'created_at'    => $this->created_at,
-            'updated_at'    => $this->updated_at,
+            'created_at'    => $this->created_at?->format('Y-m-d H:i:s'),
+            'updated_at'    => $this->updated_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

@@ -27,7 +27,7 @@ class UserResource extends JsonResource
             'photo'         =>  new FileResource($this->whenLoaded('photo')),
             'status'        =>  $this->status,
             'status_name'   =>  $this->status->label(),
-            'created_at'    =>  $this->created_at,
+            'created_at'    => $this->created_at?->format('Y-m-d H:i:s'),
         ];
     }
 }
