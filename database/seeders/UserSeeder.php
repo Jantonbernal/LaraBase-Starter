@@ -16,7 +16,10 @@ class UserSeeder extends Seeder
         User::factory()
             ->count(1)
             ->withProfilePhoto()
-            ->create()
+            ->create([
+                'email' => 'admin@admin.com',
+                'name'  => 'Administrador',
+            ])
             ->each(function ($user) {
                 $user->roles()->attach(1);
             });

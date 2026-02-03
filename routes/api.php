@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -20,6 +21,7 @@ Route::post('reset-password', [AuthController::class, 'resetPassword']);
 /* ----------  API PROTEGIDA (usuario ACTIVO) ---------- */
 Route::middleware(['auth:sanctum', 'active'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('log', [LogController::class, 'index']);
 
     Route::apiResource('company', CompanyController::class)->except(['index', 'store', 'destroy']);
 
