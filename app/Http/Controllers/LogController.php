@@ -13,10 +13,19 @@ class LogController extends Controller
     {
         Gate::authorize('viewAny', Log::class);
 
+        $search = $request->search;
+
         $response = Log::with('user:id,name,last_name,email,status')
-            ->whereAny([
-                'message',
-            ], 'LIKE', '%' . $request->search . '%')
+            ->where(function ($query) use ($search) {
+                // 1. Búsqueda en la tabla Logs
+                $query->where('message', 'LIKE', "%{$search}%")
+                    // 2. Búsqueda en la relación con User
+                    ->orWhereHas('user', function ($q) use ($search) {
+                        $q->where('name', 'LIKE', "%{$search}%")
+                            ->orWhere('last_name', 'LIKE', "%{$search}%")
+                            ->orWhere('email', 'LIKE', "%{$search}%");
+                    });
+            })
             ->orderBy('id', 'desc')
             ->paginate(6);
 
