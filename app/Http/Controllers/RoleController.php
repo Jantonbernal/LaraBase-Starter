@@ -7,7 +7,6 @@ use App\Http\Requests\RoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
 use App\Traits\Loggable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -26,7 +25,7 @@ class RoleController extends Controller
                 'name',
             ], 'LIKE', '%' . $request->search . '%')
             ->orderBy('id', 'desc')
-            ->paginate(20);
+            ->paginate(10);
 
         return RoleResource::collection($response)->response();
     }

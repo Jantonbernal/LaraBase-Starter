@@ -15,7 +15,7 @@ class RoleObserver implements ShouldHandleEventsAfterCommit
      */
     public function created(Role $role): void
     {
-        $this->registerLog('success', 'Rol creado', $role->getChanges());
+        $this->registerLog('success', 'Rol creado', $role->toArray());
     }
 
     /**

@@ -15,7 +15,7 @@ class MenuObserver implements ShouldHandleEventsAfterCommit
      */
     public function created(Menu $menu): void
     {
-        $this->registerLog('success', 'Menú creado', $menu->getChanges());
+        $this->registerLog('success', 'Menú creado', $menu->toArray());
     }
 
     /**

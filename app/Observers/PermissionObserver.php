@@ -15,7 +15,7 @@ class PermissionObserver implements ShouldHandleEventsAfterCommit
      */
     public function created(Permission $permission): void
     {
-        $this->registerLog('success', 'Permiso creado', $permission->getChanges());
+        $this->registerLog('success', 'Permiso creado', $permission->toArray());
     }
 
     /**

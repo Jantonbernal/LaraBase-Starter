@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RoleRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class RoleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +22,27 @@ class RoleRequest extends FormRequest
      */
     public function rules(): array
     {
+        $roleId = $this->route('role')?->id;
+
         return [
-            //
+            'name' => [
+                'bail',
+                'required',
+                Rule::unique('roles')->ignore($roleId),
+            ],
+            'permissions' => [
+                'bail',
+                'required',
+                'array',
+            ],
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'name'          => 'Nombre del Perfil',
+            'permissions'   => 'Permisos',
         ];
     }
 }

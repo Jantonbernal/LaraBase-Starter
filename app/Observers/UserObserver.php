@@ -15,7 +15,7 @@ class UserObserver implements ShouldHandleEventsAfterCommit
      */
     public function created(User $user): void
     {
-        $this->registerLog('success', 'Usuario creado', $user->getChanges());
+        $this->registerLog('success', 'Usuario creado', $user->toArray());
     }
 
     /**
