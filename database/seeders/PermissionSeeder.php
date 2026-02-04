@@ -19,6 +19,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'Navegar Logs', 'slug' => 'log.listar'],
 
             ['name' => 'Navegar Permisos', 'slug' => 'permiso.listar'],
+            ['name' => 'Ver Permiso', 'slug' => 'permiso.ver'],
             ['name' => 'Crear Permiso', 'slug' => 'permiso.crear'],
             ['name' => 'Editar Permiso', 'slug' => 'permiso.editar'],
             ['name' => 'Eliminar Permiso', 'slug' => 'permiso.eliminar'],

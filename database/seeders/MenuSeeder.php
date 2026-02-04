@@ -17,12 +17,12 @@ class MenuSeeder extends Seeder
             ['menu' => 'Seguridad', 'hierarchy' => 1, 'parent' => null, 'permission_id' => null, 'icon' => 'mdi mdi-fingerprint'],
             ['menu' => 'Logs', 'hierarchy' => 2, 'parent' => 1, 'permission_id' => 2, 'icon' => 'mdi mdi-math-log'],
             ['menu' => 'Permisos', 'hierarchy' => 2, 'parent' => 1, 'permission_id' => 3, 'icon' => 'mdi mdi-key-chain'],
-            ['menu' => 'Roles', 'hierarchy' => 2, 'parent' => 1, 'permission_id' => 7, 'icon' => 'mdi mdi-lock-check'],
-            ['menu' => 'Usuarios', 'hierarchy' => 2, 'parent' => 1, 'permission_id' => 12, 'icon' => 'mdi mdi-account'],
+            ['menu' => 'Roles', 'hierarchy' => 2, 'parent' => 1, 'permission_id' => 8, 'icon' => 'mdi mdi-lock-check'],
+            ['menu' => 'Usuarios', 'hierarchy' => 2, 'parent' => 1, 'permission_id' => 13, 'icon' => 'mdi mdi-account'],
 
             ['menu' => 'Configuracion', 'hierarchy' => 1, 'parent' => null, 'permission_id' => null, 'icon' => 'mdi mdi-cog'],
-            ['menu' => 'Menu', 'hierarchy' => 2, 'parent' => 6, 'permission_id' => 20, 'icon' => 'mdi mdi-menu-open'],
-            ['menu' => 'Empresa', 'hierarchy' => 2, 'parent' => 6, 'permission_id' => 25, 'icon' => 'mdi mdi-office-building'],
+            ['menu' => 'Menu', 'hierarchy' => 2, 'parent' => 6, 'permission_id' => 21, 'icon' => 'mdi mdi-menu-open'],
+            ['menu' => 'Empresa', 'hierarchy' => 2, 'parent' => 6, 'permission_id' => 26, 'icon' => 'mdi mdi-office-building'],
         ];
 
         collect($menus)->each(function ($menu) {

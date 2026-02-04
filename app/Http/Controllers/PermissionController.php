@@ -9,7 +9,6 @@ use App\Models\Permission;
 use App\Traits\HandlesStatus;
 use App\Traits\Loggable;
 use App\Traits\Paginatable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -93,12 +92,11 @@ class PermissionController extends Controller
     {
         Gate::authorize('view', $permission);
 
-        $response = Permission::where('id', $permission->id)
-            ->with(['roles' => function (Builder $query) {
-                $query->where('status', Status::ACTIVE);
-            }])->first();
+        $permission->load(['roles' => function ($query) {
+            $query->where('status', Status::ACTIVE);
+        }]);
 
-        return (new PermissionResource($response))->response();
+        return (new PermissionResource($permission))->response();
     }
 
     public function update(PermissionRequest $request, Permission $permission)
