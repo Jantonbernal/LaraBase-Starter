@@ -6,6 +6,7 @@ use App\Enums\Status;
 use App\Http\Requests\PermissionRequest;
 use App\Http\Resources\PermissionResource;
 use App\Models\Permission;
+use App\Traits\HandlesStatus;
 use App\Traits\Loggable;
 use App\Traits\Paginatable;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,7 +18,7 @@ use Throwable;
 
 class PermissionController extends Controller
 {
-    use Loggable, Paginatable;
+    use Loggable, Paginatable, HandlesStatus;
 
     public function index(Request $request)
     {
@@ -126,13 +127,7 @@ class PermissionController extends Controller
     {
         Gate::authorize('delete', $permission);
 
-        // Cambiamos el estado usando los casos del Enum
-        $permission->status = $permission->status->toggle();
-        $permission->save();
-
-        return response()->json([
-            'message'   => "Permiso {$permission->status->label()}",
-            'data'      => $permission,
-        ]);
+        // Pasamos el modelo y el nombre amigable para el mensaje
+        return $this->respondWithStatus($permission, 'El estado del permiso ha cambiado a: ');
     }
 }

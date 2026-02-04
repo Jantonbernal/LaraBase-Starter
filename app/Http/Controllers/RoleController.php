@@ -6,6 +6,7 @@ use App\Enums\Status;
 use App\Http\Requests\RoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
+use App\Traits\HandlesStatus;
 use App\Traits\Loggable;
 use App\Traits\Paginatable;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ use Throwable;
 
 class RoleController extends Controller
 {
-    use Loggable, Paginatable;
+    use Loggable, Paginatable, HandlesStatus;
 
     public function index(Request $request)
     {
@@ -107,13 +108,7 @@ class RoleController extends Controller
     {
         Gate::authorize('delete', $role);
 
-        // Cambiamos el estado usando los casos del Enum
-        $role->status = $role->status->toggle();
-        $role->save();
-
-        return response()->json([
-            'message'   => "Rol {$role->status->label()}",
-            'data'      => $role,
-        ]);
+        // Pasamos el modelo y el nombre amigable para el mensaje
+        return $this->respondWithStatus($role, 'El estado del rol ha cambiado a: ');
     }
 }

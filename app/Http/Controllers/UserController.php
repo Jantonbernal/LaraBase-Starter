@@ -10,6 +10,7 @@ use App\Models\Menu;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\FileUploadService;
+use App\Traits\HandlesStatus;
 use App\Traits\Loggable;
 use App\Traits\Paginatable;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,7 +23,7 @@ use Throwable;
 
 class UserController extends Controller
 {
-    use Loggable, Paginatable;
+    use Loggable, Paginatable, HandlesStatus;
 
     public function index(Request $request)
     {
@@ -142,13 +143,8 @@ class UserController extends Controller
     {
         Gate::authorize('delete', $user);
 
-        $user->status = $user->status->toggle();
-        $user->save();
-
-        return response()->json([
-            'message'   => "Usuario {$user->status->label()}",
-            'data'      => $user,
-        ]);
+        // Pasamos el modelo y el nombre amigable para el mensaje
+        return $this->respondWithStatus($user, 'El estado del usuario ha cambiado a: ');
     }
 
     public function verifyCode(VerifyCode $request)

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\Status;
 use App\Traits\HasCode;
+use App\Traits\HasStatus;
 use App\Traits\SerializableDate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,7 +18,7 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
 
-    use SerializableDate, HasCode;
+    use SerializableDate, HasCode, HasStatus;
 
     const CODE_PREFIX = 'USU';
 

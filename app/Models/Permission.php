@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Enums\Status;
+use App\Traits\HasStatus;
 use App\Traits\SerializableDate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Permission extends Model
 {
-    use HasFactory, SerializableDate;
+    use HasFactory, SerializableDate, HasStatus;
 
     protected $fillable = [
         'slug',

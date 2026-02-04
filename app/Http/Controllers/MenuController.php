@@ -6,6 +6,7 @@ use App\Enums\Status;
 use App\Http\Requests\MenuRequest;
 use App\Http\Resources\MenuResource;
 use App\Models\Menu;
+use App\Traits\HandlesStatus;
 use App\Traits\Loggable;
 use App\Traits\Paginatable;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ use Throwable;
 
 class MenuController extends Controller
 {
-    use Loggable, Paginatable;
+    use Loggable, Paginatable, HandlesStatus;
 
     public function index(Request $request)
     {
@@ -149,13 +150,7 @@ class MenuController extends Controller
     {
         Gate::authorize('delete', $menu);
 
-        // Cambiamos el estado usando los casos del Enum
-        $menu->status = $menu->status->toggle();
-        $menu->save();
-
-        return response()->json([
-            'message'   => "Menu {$menu->status->label()}",
-            'data'      => $menu,
-        ]);
+        // Pasamos el modelo y el nombre amigable para el mensaje
+        return $this->respondWithStatus($menu, 'El estado del menú ha cambiado a: ');
     }
 }
