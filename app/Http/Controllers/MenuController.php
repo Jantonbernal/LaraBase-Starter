@@ -7,6 +7,7 @@ use App\Http\Requests\MenuRequest;
 use App\Http\Resources\MenuResource;
 use App\Models\Menu;
 use App\Traits\Loggable;
+use App\Traits\Paginatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -14,7 +15,7 @@ use Throwable;
 
 class MenuController extends Controller
 {
-    use Loggable;
+    use Loggable, Paginatable;
 
     public function index(Request $request)
     {
@@ -26,7 +27,7 @@ class MenuController extends Controller
                 'menu',
             ], 'LIKE', '%' . $request->search . '%')
             ->orderBy('id', 'desc')
-            ->paginate(9);
+            ->paginate($this->getPerPage($request));
 
         return MenuResource::collection($response)->response();
     }

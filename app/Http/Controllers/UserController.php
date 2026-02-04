@@ -11,6 +11,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Services\FileUploadService;
 use App\Traits\Loggable;
+use App\Traits\Paginatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ use Throwable;
 
 class UserController extends Controller
 {
-    use Loggable;
+    use Loggable, Paginatable;
 
     public function index(Request $request)
     {
@@ -40,7 +41,7 @@ class UserController extends Controller
                 'status',
             ], 'LIKE', '%' . $request->search . '%')
             ->orderBy('id', 'desc')
-            ->paginate(20);
+            ->paginate($this->getPerPage($request));
 
         return UserResource::collection($response)->response();
     }

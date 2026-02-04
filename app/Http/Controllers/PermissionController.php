@@ -7,6 +7,7 @@ use App\Http\Requests\PermissionRequest;
 use App\Http\Resources\PermissionResource;
 use App\Models\Permission;
 use App\Traits\Loggable;
+use App\Traits\Paginatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,18 +17,18 @@ use Throwable;
 
 class PermissionController extends Controller
 {
-    use Loggable;
+    use Loggable, Paginatable;
 
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', Request::class);
+        Gate::authorize('viewAny', Permission::class);
 
         $response = Permission::whereAny([
             'slug',
             'name',
         ], 'LIKE', '%' . $request->search . '%')
             ->orderBy('id', 'desc')
-            ->paginate(8);
+            ->paginate($this->getPerPage($request));
 
         return PermissionResource::collection($response)->response();
     }

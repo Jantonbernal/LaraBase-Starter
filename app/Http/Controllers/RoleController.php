@@ -7,6 +7,7 @@ use App\Http\Requests\RoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
 use App\Traits\Loggable;
+use App\Traits\Paginatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -14,7 +15,7 @@ use Throwable;
 
 class RoleController extends Controller
 {
-    use Loggable;
+    use Loggable, Paginatable;
 
     public function index(Request $request)
     {
@@ -25,7 +26,7 @@ class RoleController extends Controller
                 'name',
             ], 'LIKE', '%' . $request->search . '%')
             ->orderBy('id', 'desc')
-            ->paginate(10);
+            ->paginate($this->getPerPage($request));
 
         return RoleResource::collection($response)->response();
     }

@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\LogResource;
 use App\Models\Log;
+use App\Traits\Paginatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class LogController extends Controller
 {
+    use Paginatable;
+
     public function index(Request $request)
     {
         Gate::authorize('viewAny', Log::class);
@@ -27,7 +30,7 @@ class LogController extends Controller
                     });
             })
             ->orderBy('id', 'desc')
-            ->paginate(6);
+            ->paginate($this->getPerPage($request));
 
         return LogResource::collection($response);
     }
