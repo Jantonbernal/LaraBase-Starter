@@ -13,9 +13,7 @@ use App\Services\FileUploadService;
 use App\Traits\HandlesStatus;
 use App\Traits\Loggable;
 use App\Traits\Paginatable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
@@ -30,9 +28,6 @@ class UserController extends Controller
         Gate::authorize('viewAny', User::class);
 
         $response = User::with(['photo'])
-            ->whereHas('branches', function (Builder $query) use ($request) {
-                $query->where('id', $request->branch);
-            })
             ->whereAny([
                 'code',
                 'name',
@@ -51,7 +46,7 @@ class UserController extends Controller
     {
         Gate::authorize('view', $user);
 
-        $user->load(['photo']);
+        $user->load(['photo', 'roles']);
 
         return (new UserResource($user))->response();
     }
@@ -63,22 +58,35 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
+            $fileId = null;
+
+            // Si se envía un nuevo archivo, se sube y se obtiene su ID
+            if ($request->hasFile('file')) {
+                $service = resolve(FileUploadService::class);
+
+                $uploadedFile = $service->uploadSingleFile($request->file('file'), 'users');
+                $fileId = $uploadedFile->id;
+            }
+
             $user = User::create([
                 'name'      => $request['name'],
                 'last_name' => $request['last_name'],
                 'email'     => $request['email'],
-                'password'  => $request['password'] ?? Hash::make($request['password']),
+                'password'  => $request['password'],
                 'phone'     => $request['phone'] ?? null,
-                'file_id'   => $request['file_id'] ?? null,
+                'file_id'   => $fileId ?? null,
             ]);
 
             // Asignar roles
             $user->roles()->sync($request->roles);
 
             DB::commit();
+
+            $user->load(['photo', 'roles', 'permissions']);
+
             return response()->json([
                 'message' => 'Usuario creado exitosamente',
-                'data'    => new UserResource(User::with('photo')->findOrFail($user->id))
+                'data'    => $user
             ], 201);
         } catch (Throwable $e) {
             DB::rollBack();
@@ -97,6 +105,7 @@ class UserController extends Controller
         Gate::authorize('update', $user);
 
         DB::beginTransaction();
+
         try {
             $fileId = $user->file_id;
 
@@ -112,7 +121,7 @@ class UserController extends Controller
                 'name'      => $request['name']     ?? $user->name,
                 'last_name' => $request['last_name'] ?? $user->last_name,
                 'email'     => $request['email']    ?? $user->email,
-                'password'  => isset($request['password']) ? Hash::make($request['password']) : $user->password,
+                'password'  => isset($request['password']) ? $request['password'] : $user->password,
                 'phone'     => $request['phone']    ?? $user->phone,
                 'file_id'   => $fileId,
                 'status'    => $request['status']   ?? $user->status,
@@ -123,9 +132,11 @@ class UserController extends Controller
 
             DB::commit();
 
+            $user->load(['photo']);
+
             return response()->json([
                 'message' => 'Usuario actualizado exitosamente',
-                'data'    => new UserResource(User::with('photo')->findOrFail($user->id))
+                'data'    => new UserResource($user)
             ], 201);
         } catch (Throwable $e) {
             DB::rollBack();
@@ -154,7 +165,7 @@ class UserController extends Controller
             $user = User::where([
                 ['email', $request->email],
                 ['verification_code', $request->code],
-                ['status', 'inactive'],
+                ['status', Status::ACTIVE],
             ])->first();
 
             if (!$user) {
@@ -162,7 +173,7 @@ class UserController extends Controller
             }
 
             // Actualizó la nueva contraseña y seteo a vacío el código de verificación
-            $user->status = 'active';
+            $user->status = Status::ACTIVE;
             $user->verification_code = null;
 
             if ($user->save()) {

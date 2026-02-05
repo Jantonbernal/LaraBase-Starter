@@ -37,7 +37,7 @@ class RoleController extends Controller
      */
     public function allRoles()
     {
-        $response = Role::orderBy('id', 'desc')->get();
+        $response = Role::where('status', Status::ACTIVE)->orderBy('id', 'desc')->get();
 
         return RoleResource::collection($response)->response();
     }

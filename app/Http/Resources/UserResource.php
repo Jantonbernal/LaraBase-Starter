@@ -26,7 +26,7 @@ class UserResource extends JsonResource
             'roles'         =>  RoleResource::collection($this->whenLoaded('roles')),
             'photo'         =>  new FileResource($this->whenLoaded('photo')),
             'status'        =>  $this->status,
-            'status_name'   =>  $this->status->label(),
+            'status_name'   =>  $this->status?->label() ?? 'Sin estado',
             'created_at'    => $this->created_at?->format('Y-m-d H:i:s'),
         ];
     }
