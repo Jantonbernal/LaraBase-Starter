@@ -21,8 +21,8 @@ class MenuSeeder extends Seeder
             ['menu' => 'Usuarios', 'hierarchy' => 2, 'parent' => 1, 'permission_id' => 13, 'icon' => 'mdi mdi-account'],
 
             ['menu' => 'Configuracion', 'hierarchy' => 1, 'parent' => null, 'permission_id' => null, 'icon' => 'mdi mdi-cog'],
-            ['menu' => 'Menu', 'hierarchy' => 2, 'parent' => 6, 'permission_id' => 21, 'icon' => 'mdi mdi-menu-open'],
-            ['menu' => 'Empresa', 'hierarchy' => 2, 'parent' => 6, 'permission_id' => 26, 'icon' => 'mdi mdi-office-building'],
+            ['menu' => 'Menu', 'hierarchy' => 2, 'parent' => 6, 'permission_id' => 20, 'icon' => 'mdi mdi-menu-open'],
+            ['menu' => 'Empresa', 'hierarchy' => 2, 'parent' => 6, 'permission_id' => 25, 'icon' => 'mdi mdi-office-building'],
         ];
 
         collect($menus)->each(function ($menu) {

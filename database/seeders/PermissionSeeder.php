@@ -34,8 +34,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'Crear Usuario', 'slug' => 'usuario.crear'],
             ['name' => 'Editar Usuario', 'slug' => 'usuario.editar'],
             ['name' => 'Ver Usuario', 'slug' => 'usuario.ver'],
-            ['name' => 'Activar Usuario', 'slug' => 'usuario.activar'],
-            ['name' => 'Desactivar Usuario', 'slug' => 'usuario.desactivar'],
+            ['name' => 'Eliminar Usuario', 'slug' => 'usuario.eliminar'],
             ['name' => 'Permiso Usuario', 'slug' => 'usuario.permiso'],
             ['name' => 'Perfil Usuario', 'slug' => 'usuario.perfil'],
 
