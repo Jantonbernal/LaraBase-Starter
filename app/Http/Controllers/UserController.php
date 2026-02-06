@@ -16,7 +16,6 @@ use App\Traits\Paginatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Hash;
 use Throwable;
 
 class UserController extends Controller
@@ -46,7 +45,7 @@ class UserController extends Controller
     {
         Gate::authorize('view', $user);
 
-        $user->load(['photo', 'roles']);
+        $user->load(['photo', 'roles', 'permissions']);
 
         return (new UserResource($user))->response();
     }
