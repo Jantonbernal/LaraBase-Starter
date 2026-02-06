@@ -24,6 +24,7 @@ class MenuResource extends JsonResource
             'status'        => $this->status,
             'status_name'   => $this->status->label(),
             'created_at'    => $this->created_at?->format('Y-m-d H:i:s'),
+            'allChildrenMenus'  => MenuResource::collection($this->whenLoaded('allChildrenMenus'))
         ];
     }
 }

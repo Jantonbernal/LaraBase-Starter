@@ -35,9 +35,7 @@ class MenuController extends Controller
 
     public function allMenus()
     {
-        $response = Menu::where('hierarchy', 1)
-            ->orderBy('id', 'desc')
-            ->get();
+        $response = Menu::where('hierarchy', 1)->orderBy('id', 'desc')->get();
 
         return MenuResource::collection($response)->response();
     }
@@ -126,12 +124,14 @@ class MenuController extends Controller
 
             // Desactivar el vinculo de los submenus con el menu principal
             // antes de asignar los nuevos submenus
-            Menu::where('parent', $menu->id)->update(['parent' => null]);
+            // Menu::where('parent', $menu->id)->update(['parent' => null]);
 
-            // Actualizar nuevos subbmenus
-            Menu::whereIn('id', $request->menus)->update([
-                'parent' => $menu->id,
-            ]);
+            // // Actualizar nuevos subbmenus
+            // if (isset($request->menus) && sizeof($request->menus) > 0) {
+            //     Menu::whereIn('id', $request->menus)->update([
+            //         'parent' => $menu->id,
+            //     ]);
+            // }
 
             DB::commit();
             return response()->json([

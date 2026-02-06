@@ -42,15 +42,15 @@ class PermissionController extends Controller
         $permissions = [];
 
         foreach ($response as $value) {
-            // Solo permisos con 'index' o 'createOrUpdate' en el slug
-            $contains = Str::contains($value->slug, ['index', 'createOrUpdate']);
+            // Solo permisos con 'listar' o 'createOrUpdate' en el slug
+            $contains = Str::contains($value->slug, ['listar']);
             if ($contains) {
                 // Si contiene, lo agregamos al array
                 array_push($permissions, $value);
             }
         }
 
-        return PermissionResource::collection($response)->response();
+        return PermissionResource::collection($permissions)->response();
     }
 
     /**
