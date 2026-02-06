@@ -23,14 +23,5 @@ class UserSeeder extends Seeder
             ->each(function ($user) {
                 $user->roles()->attach(1);
             });
-
-        // Usuarios normales
-        User::factory()
-            ->count(1)
-            ->withProfilePhoto()
-            ->create()
-            ->each(function ($user) {
-                $user->roles()->attach(2);
-            });
     }
 }
