@@ -22,7 +22,7 @@ class MenuSeeder extends Seeder
 
             ['menu' => 'Configuracion', 'hierarchy' => 1, 'parent' => null, 'permission_id' => null, 'icon' => 'mdi mdi-cog'],
             ['menu' => 'Menu', 'hierarchy' => 2, 'parent' => 6, 'permission_id' => 20, 'icon' => 'mdi mdi-menu-open'],
-            ['menu' => 'Empresa', 'hierarchy' => 2, 'parent' => 6, 'permission_id' => 24, 'icon' => 'mdi mdi-office-building'],
+            ['menu' => 'Empresa', 'hierarchy' => 2, 'parent' => 6, 'permission_id' => 25, 'icon' => 'mdi mdi-office-building'],
         ];
 
         collect($menus)->each(function ($menu) {

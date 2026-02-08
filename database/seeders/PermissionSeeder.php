@@ -42,6 +42,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'Crear Menu', 'slug' => 'menu.crear'],
             ['name' => 'Editar Menu', 'slug' => 'menu.editar'],
             ['name' => 'Ver Menu', 'slug' => 'menu.ver'],
+            ['name' => 'Eliminar Menu', 'slug' => 'menu.eliminar'],
 
             ['name' => 'Navegar Compañia', 'slug' => 'compania.listar'],
             ['name' => 'Administrar Compañia', 'slug' => 'compania.createOrUpdate'],

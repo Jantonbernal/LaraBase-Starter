@@ -253,10 +253,12 @@ class UserController extends Controller
         // 7. Cargar Menús con filtrado eficiente
         // Usamos 'whereHas' para que el menú principal solo aparezca si tiene hijos con permiso
         $menus = Menu::with(['allChildrenMenus' => function ($query) use ($allPermissionsIds) {
-            $query->whereIn('permission_id', $allPermissionsIds)
+            $query->where('status', Status::ACTIVE)
+                ->whereIn('permission_id', $allPermissionsIds)
                 ->with('permission'); // Eager loading del permiso del hijo
         }])
             ->where('hierarchy', 1)
+            ->where('status', Status::ACTIVE)
             ->orderBy('id', 'desc')
             ->get();
 
