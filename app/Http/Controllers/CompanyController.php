@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
 use App\Http\Resources\CompanyResource;
+use App\Services\FileUploadService;
 use App\Traits\Loggable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -29,10 +30,31 @@ class CompanyController extends Controller
         DB::beginTransaction();
 
         try {
-            $company->update($request->validated());
+            $fileId = $company->file_id;
+
+            // Si se envía un nuevo archivo, se sube y se obtiene su ID
+            if ($request->hasFile('file')) {
+                $service = resolve(FileUploadService::class);
+
+                $uploadedFile = $service->uploadSingleFile($request->file('file'), 'company');
+                $fileId = $uploadedFile->id;
+            }
+
+            $company->update([
+                'business_name' =>  $request['business_name'],
+                'trade_name'    =>  $request['trade_name'],
+                'document'      =>  $request['document'],
+                'email'         =>  $request['email'],
+                'phone_number'  =>  $request['phone_number'],
+                'file_id'       => $fileId,
+            ]);
+
             DB::commit();
 
-            return (new CompanyResource($company->load('logo')))->response();
+            return response()->json([
+                'message' => 'Compañia actualizada exitosamente',
+                'data'    => new CompanyResource($company->load('logo'))
+            ], 201);
         } catch (Throwable $e) {
             DB::rollBack();
             $this->registerLog('error', 'Error al actualizar empresa', [
