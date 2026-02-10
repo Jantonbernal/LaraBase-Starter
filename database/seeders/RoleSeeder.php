@@ -27,11 +27,5 @@ class RoleSeeder extends Seeder
         }
 
         $role->permissions()->attach($collection);
-
-        // Rol de contador
-        $role = Role::create([
-            'name' => 'Counter',
-        ]);
-        $role->permissions()->attach([25]);
     }
 }

@@ -51,7 +51,7 @@ class RoleController extends Controller
         try {
             $record = Role::create($request->validated());
 
-            $record->permissions()->sync($request->permissions);
+            $record->permissions()->sync($this->getGuaranteedPermissions($request->permissions ?? []));
 
             DB::commit();
             return response()->json([
@@ -89,7 +89,7 @@ class RoleController extends Controller
         try {
             $role->update($request->validated());
 
-            $role->permissions()->sync($request->permissions);
+            $role->permissions()->sync($this->getGuaranteedPermissions($request->permissions ?? []));
 
             DB::commit();
             return response()->json([
@@ -110,5 +110,16 @@ class RoleController extends Controller
 
         // Pasamos el modelo y el nombre amigable para el mensaje
         return $this->respondWithStatus($role, 'El estado del rol ha cambiado a: ');
+    }
+
+    /**
+     * Asegura que el permiso Home siempre esté incluido.
+     */
+    private function getGuaranteedPermissions(array $permissions): array
+    {
+        return collect($permissions)
+            ->push(1)
+            ->unique()
+            ->toArray();
     }
 }
