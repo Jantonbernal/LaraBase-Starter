@@ -20,6 +20,7 @@ class LogResource extends JsonResource
             'method'    => $this->method,
             'message'   => $this->message,
             'payload'   => $this->payload,
+            'status'    => $this->status,
             'user'      => new UserResource($this->whenLoaded('user')),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
         ];
