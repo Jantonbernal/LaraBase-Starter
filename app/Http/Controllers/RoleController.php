@@ -58,15 +58,7 @@ class RoleController extends Controller
                 'message'   => 'Rol creado exitosamente',
             ]);
         } catch (Throwable $e) {
-            DB::rollBack();
-            $log = $this->registerLog('error', 'Error al registrar rol', [
-                'exception' => $e->getMessage(),
-                'trace'     => $e->getTraceAsString(),
-            ]);
-            return response()->json([
-                'message' => 'Error interno en el servidor',
-                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
-            ], 500);
+            return $this->handleException($e, 'Error al registrar rol');
         }
     }
 
@@ -100,15 +92,7 @@ class RoleController extends Controller
                 'message'   => 'Rol actualizado exitosamente',
             ]);
         } catch (Throwable $e) {
-            DB::rollBack();
-            $log = $this->registerLog('error', 'Error al actualizar rol', [
-                'exception' => $e->getMessage(),
-                'trace'     => $e->getTraceAsString(),
-            ]);
-            return response()->json([
-                'message' => 'Error interno en el servidor',
-                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
-            ], 500);
+            return $this->handleException($e, 'Error al actualizar rol');
         }
     }
 

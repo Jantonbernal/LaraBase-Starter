@@ -31,15 +31,7 @@ class FileController extends Controller
                 'file'    => new FileResource($uploadedFile),
             ], 201);
         } catch (Throwable $e) {
-            DB::rollBack();
-            $log = $this->registerLog('error', 'Fallo al subir imagen', [
-                'exception' => $e->getMessage(),
-                'trace'     => $e->getTraceAsString(),
-            ]);
-            return response()->json([
-                'message' => 'Error interno en el servidor',
-                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
-            ], 500);
+            return $this->handleException($e, 'Fallo al subir imagen');
         }
     }
 
@@ -63,15 +55,7 @@ class FileController extends Controller
                 'files'   => FileResource::collection($saved),
             ], 201);
         } catch (Throwable $e) {
-            DB::rollBack();
-            $log = $this->registerLog('error', 'Fallo al subir archivos', [
-                'exception' => $e->getMessage(),
-                'trace'     => $e->getTraceAsString(),
-            ]);
-            return response()->json([
-                'message' => 'Error interno en el servidor',
-                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
-            ], 500);
+            return $this->handleException($e, 'Fallo al subir archivos');
         }
     }
 }

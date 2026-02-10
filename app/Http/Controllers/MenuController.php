@@ -79,15 +79,7 @@ class MenuController extends Controller
                 'message'   => 'Menú creado exitosamente',
             ]);
         } catch (Throwable $e) {
-            DB::rollBack();
-            $log = $this->registerLog('error', 'Error al actualizar menú', [
-                'exception' => $e->getMessage(),
-                'trace'     => $e->getTraceAsString(),
-            ]);
-            return response()->json([
-                'message' => 'Error interno en el servidor',
-                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
-            ], 500);
+            return $this->handleException($e, 'Error al registrar menú');
         }
     }
 
@@ -131,15 +123,7 @@ class MenuController extends Controller
                 'message'   => 'Menú actualizado exitosamente',
             ]);
         } catch (Throwable $e) {
-            DB::rollBack();
-            $log = $this->registerLog('error', 'Error al actualizar menú', [
-                'exception' => $e->getMessage(),
-                'trace'     => $e->getTraceAsString(),
-            ]);
-            return response()->json([
-                'message' => 'Error interno en el servidor',
-                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
-            ], 500);
+            return $this->handleException($e, 'Error al actualizar menú');
         }
     }
 

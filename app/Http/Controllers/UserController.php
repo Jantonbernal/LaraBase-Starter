@@ -88,15 +88,7 @@ class UserController extends Controller
                 'data'    => $user
             ], 201);
         } catch (Throwable $e) {
-            DB::rollBack();
-            $log = $this->registerLog('error', 'Error al crear el usuario', [
-                'exception' => $e->getMessage(),
-                'trace'     => $e->getTraceAsString(),
-            ]);
-            return response()->json([
-                'message' => 'Error interno en el servidor',
-                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
-            ], 500);
+            return $this->handleException($e, 'Error al crear usuario');
         }
     }
 
@@ -139,15 +131,7 @@ class UserController extends Controller
                 'data'    => new UserResource($user)
             ], 201);
         } catch (Throwable $e) {
-            DB::rollBack();
-            $log = $this->registerLog('error', 'Error al actualizar el usuario', [
-                'exception' => $e->getMessage(),
-                'trace'     => $e->getTraceAsString(),
-            ]);
-            return response()->json([
-                'message' => 'Error interno en el servidor',
-                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
-            ], 500);
+            return $this->handleException($e, 'Error al actualizar usuario');
         }
     }
 
@@ -185,15 +169,7 @@ class UserController extends Controller
                 ], 201);
             }
         } catch (Throwable $e) {
-            DB::rollBack();
-            $log =  $this->registerLog('error', 'Error al verificar el código', [
-                'exception' => $e->getMessage(),
-                'trace'     => $e->getTraceAsString(),
-            ]);
-            return response()->json([
-                'message' => 'Error interno en el servidor',
-                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
-            ], 500);
+            return $this->handleException($e, 'Error al verificar el código');
         }
     }
 
@@ -211,15 +187,7 @@ class UserController extends Controller
                 'message'   => 'Permisos asignados exitosamente',
             ]);
         } catch (Throwable $e) {
-            DB::rollBack();
-            $log =  $this->registerLog('error', 'Error al asignar permiso', [
-                'exception' => $e->getMessage(),
-                'trace'     => $e->getTraceAsString(),
-            ]);
-            return response()->json([
-                'message' => 'Error interno en el servidor',
-                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
-            ], 500);
+            return $this->handleException($e, 'Error al asignar permiso');
         }
     }
 

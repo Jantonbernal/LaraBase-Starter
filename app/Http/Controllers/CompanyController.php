@@ -56,15 +56,7 @@ class CompanyController extends Controller
                 'data'    => new CompanyResource($company->load('logo'))
             ], 201);
         } catch (Throwable $e) {
-            DB::rollBack();
-            $log = $this->registerLog('error', 'Error al actualizar empresa', [
-                'exception' => $e->getMessage(),
-                'trace'     => $e->getTraceAsString(),
-            ]);
-            return response()->json([
-                'message' => 'Error interno en el servidor',
-                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
-            ], 500);
+            return $this->handleException($e, 'Error al actualizar la empresa');
         }
     }
 }
