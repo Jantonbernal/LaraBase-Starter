@@ -78,10 +78,14 @@ class PermissionController extends Controller
             ]);
         } catch (Throwable $e) {
             DB::rollBack();
-            $this->registerLog('error', 'Error al registrar permiso', [
+            $log = $this->registerLog('error', 'Error al registrar permiso', [
                 'exception' => $e->getMessage(),
+                'trace'     => $e->getTraceAsString(),
             ]);
-            return response()->json(['message' => 'Error interno'], 500);
+            return response()->json([
+                'message' => 'Error interno en el servidor',
+                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
+            ], 500);
         }
     }
 
@@ -114,10 +118,14 @@ class PermissionController extends Controller
             ]);
         } catch (Throwable $e) {
             DB::rollBack();
-            $this->registerLog('error', 'Error al actualizar permiso', [
+            $log = $this->registerLog('error', 'Error al actualizar permiso', [
                 'exception' => $e->getMessage(),
+                'trace'     => $e->getTraceAsString(),
             ]);
-            return response()->json(['message' => 'Error interno'], 500);
+            return response()->json([
+                'message' => 'Error interno en el servidor',
+                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
+            ], 500);
         }
     }
 

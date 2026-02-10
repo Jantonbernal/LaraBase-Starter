@@ -80,10 +80,14 @@ class MenuController extends Controller
             ]);
         } catch (Throwable $e) {
             DB::rollBack();
-            $this->registerLog('error', 'Error al registrar menú', [
+            $log = $this->registerLog('error', 'Error al actualizar menú', [
                 'exception' => $e->getMessage(),
+                'trace'     => $e->getTraceAsString(),
             ]);
-            return response()->json(['message' => 'Error interno'], 500);
+            return response()->json([
+                'message' => 'Error interno en el servidor',
+                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
+            ], 500);
         }
     }
 
@@ -122,27 +126,20 @@ class MenuController extends Controller
         try {
             $menu->update($request->validated());
 
-            // Desactivar el vinculo de los submenus con el menu principal
-            // antes de asignar los nuevos submenus
-            // Menu::where('parent', $menu->id)->update(['parent' => null]);
-
-            // // Actualizar nuevos subbmenus
-            // if (isset($request->menus) && sizeof($request->menus) > 0) {
-            //     Menu::whereIn('id', $request->menus)->update([
-            //         'parent' => $menu->id,
-            //     ]);
-            // }
-
             DB::commit();
             return response()->json([
                 'message'   => 'Menú actualizado exitosamente',
             ]);
         } catch (Throwable $e) {
             DB::rollBack();
-            $this->registerLog('error', 'Error al actualizar menú', [
+            $log = $this->registerLog('error', 'Error al actualizar menú', [
                 'exception' => $e->getMessage(),
+                'trace'     => $e->getTraceAsString(),
             ]);
-            return response()->json(['message' => 'Error interno'], 500);
+            return response()->json([
+                'message' => 'Error interno en el servidor',
+                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
+            ], 500);
         }
     }
 

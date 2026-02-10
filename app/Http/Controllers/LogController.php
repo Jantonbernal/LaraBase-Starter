@@ -20,9 +20,16 @@ class LogController extends Controller
 
         $response = Log::with('user:id,name,last_name,email,status')
             ->where(function ($query) use ($search) {
-                // 1. Búsqueda en la tabla Logs
-                $query->where('message', 'LIKE', "%{$search}%")
-                    // 2. Búsqueda en la relación con User
+                // 1. Búsqueda por ID exacto (Si el término es numérico)
+                if (is_numeric($search)) {
+                    $query->where('id', $search);
+                }
+
+                // 2. Búsqueda por texto en Log (LIKE)
+                $query->orWhere('message', 'LIKE', "%{$search}%")
+                    ->orWhere('status', 'LIKE', "%{$search}%")
+
+                    // 3. Búsqueda en la relación con User
                     ->orWhereHas('user', function ($q) use ($search) {
                         $q->where('name', 'LIKE', "%{$search}%")
                             ->orWhere('last_name', 'LIKE', "%{$search}%")

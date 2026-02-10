@@ -57,10 +57,14 @@ class CompanyController extends Controller
             ], 201);
         } catch (Throwable $e) {
             DB::rollBack();
-            $this->registerLog('error', 'Error al actualizar empresa', [
+            $log = $this->registerLog('error', 'Error al actualizar empresa', [
                 'exception' => $e->getMessage(),
+                'trace'     => $e->getTraceAsString(),
             ]);
-            return response()->json(['message' => 'Error interno'], 500);
+            return response()->json([
+                'message' => 'Error interno en el servidor',
+                'info'    => "Por favor, comunique este ID (#{$log->id}) al administrador."
+            ], 500);
         }
     }
 }
