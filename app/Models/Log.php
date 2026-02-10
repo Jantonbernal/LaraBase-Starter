@@ -17,6 +17,7 @@ class Log extends Model
         'method',
         'message',
         'payload',
+        'status'
     ];
 
     /**
