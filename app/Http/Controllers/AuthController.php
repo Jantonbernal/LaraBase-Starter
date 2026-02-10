@@ -101,11 +101,7 @@ class AuthController extends Controller
                 'message' => 'Hemos enviado un código de verificación al correo electrónico ' . $request->hideEmail,
             ], 201);
         } catch (Throwable $e) {
-            DB::rollBack();
-            $this->registerLog('error', 'Error al enviar E-mail', [
-                'exception' => $e->getMessage(),
-            ]);
-            return response()->json(['message' => 'Error interno'], 500);
+            return $this->handleException($e, 'Error al enviar E-mail');
         }
     }
 
@@ -128,11 +124,7 @@ class AuthController extends Controller
                 'message' => 'Verificación exitosa! ',
             ], 201);
         } catch (Throwable $e) {
-            DB::rollBack();
-            $this->registerLog('error', 'Error al verificar el código', [
-                'exception' => $e->getMessage(),
-            ]);
-            return response()->json(['message' => 'Error interno'], 500);
+            return $this->handleException($e, 'Error al verificar el código');
         }
     }
 
@@ -167,11 +159,7 @@ class AuthController extends Controller
 
             return response()->json(['message' => "Ha ocurrido un error"], 500);
         } catch (Throwable $e) {
-            DB::rollBack();
-            $this->registerLog('error', 'Error al restablecer contraseña', [
-                'exception' => $e->getMessage(),
-            ]);
-            return response()->json(['message' => 'Error interno'], 500);
+            return $this->handleException($e, 'Error al restablecer contraseña');
         }
     }
 }
